@@ -8,14 +8,14 @@
 #######################################################################################
 #Get the working directory. This allows the script to run from any location. Then get the path to the handbrake install
 $ScriptDirectory = Split-Path -Path $MyInvocation.MyCommand.Definition -Parent
-$HandbreakDirectory = "C:\Users\ADMIN\Desktop\Important Stuff\Tools\Handbreak Encoder"
+$HandBrakeDirectory = "C:\Users\ADMIN\Desktop\Important Stuff\Tools\Handbreak Encoder"
 
 #Start a transcript to track any logs
 $TranscriptName = get-date -Format mm-dd-yyyy
 Start-Transcript -Path "$ScriptDirectory\Logs\Log_$TranscriptName.txt"
 
 #Change directories to where handbreak is installed
-Set-Location $HandbreakDirectory
+Set-Location $HandBrakeDirectory
 
 #######################################################################################
 #Set an array of the directories that need to be checked. 
