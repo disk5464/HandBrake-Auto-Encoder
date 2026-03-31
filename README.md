@@ -43,3 +43,8 @@ AutoEncoder_OnDemand_V is a powershell script that does the same thing however i
 4. Does the files get renamed?
    No. The only change in the file name will be in the format, mkv gets updated to mp4. This change is because the handbrake preset outputs to mp4
    This means if you encode a file and it's orginal file name follows scene formatting, the encoded version will be incorrect. This is something I want to fix later. Here is a quick guide on proper naming https://rendezvois.github.io/miscellaneous/naming-conventions/overview/
+
+5. How are Subtitles and Audio tracks handled?
+   The first 3 audio tracks are retained. This is almost always the English subtitles, and in the case of Anime the English, Signs / Songs, and any OP tracks.
+   As for audio tracks all tracks are retained.
+   If you want to change this, you can update it on the line where HandBrake is called (HandBrakeCLI.exe). Check out the HandBrake CLI syntax here https://handbrake.fr/docs/en/latest/cli/command-line-reference.html
