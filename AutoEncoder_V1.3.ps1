@@ -23,7 +23,7 @@ $DirectoriesToEncode = @("Y:\Library\Anime NAS", "Y:\Library\TV NAS")
 
 #Import the list of expections
 $ExpectionsListCSV = "$ScriptDirectory\Exceptions List.csv"
-$expectionsList = Import-Csv -Path $ExpectionsListCSV
+$ExpectionsList = Import-Csv -Path $ExpectionsListCSV
 
 #######################################################################################
 foreach ($Directory in $DirectoriesToEncode)
@@ -35,7 +35,7 @@ foreach ($Directory in $DirectoriesToEncode)
     foreach ($file in $FilesToCompress)
     {
         #Check to make sure th file is not on the exceptions list
-        if($file.fullname -notin $expectionsList."File Name")
+        if( ($file.fullname -notin $ExpectionsList."File Name") -and ($file.fullname -ne "C:\Temp\Demo.mkv") )
         {
             #Set a variable for the output name
             Write-Host "Encoding" $file.Fullname
