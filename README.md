@@ -19,7 +19,11 @@ AutoEncoder_OnDemand_V is a powershell script that does the same thing however i
    
    <img width="715" height="56" alt="image" src="https://github.com/user-attachments/assets/e69efd0e-e299-4e62-9427-824ac402f7bf" />
 
-6. Open ExpectionsList.csv and update it with the files you want to exclude. Some examples have been left to showcase how it should be formatted.
+5. If you are configuring the on demand version and want to do multiple directories, your input file will just be a text file with the directories you want to search. There is an example file in the samples folder to showcase the formatting.
+
+   <img width="327" height="110" alt="image" src="https://github.com/user-attachments/assets/526a9116-8ff6-4aee-8b32-7347f1b5a15e" />
+
+6. Open ExpectionsList.csv and update it with the files you want to exclude. There is a sample version in the Sample Files folder to showcase how it should be formatted.
    
    <img width="1383" height="160" alt="image" src="https://github.com/user-attachments/assets/83b537c1-bf94-4894-998e-a40d7bd8018a" />
 
