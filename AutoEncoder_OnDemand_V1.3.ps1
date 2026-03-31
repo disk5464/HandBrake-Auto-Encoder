@@ -55,7 +55,7 @@ foreach ($Directory in $DirectoriesToEncode)
     #Foreach file that needs to be encoded 
     foreach ($file in $FilesToCompress)
     {
-        #Check to make sure th file is not on the exceptions list
+        #Check to make sure the file is not on the exceptions list
         if($file.fullname -notin $ExpectionsList."File Name") 
         {
             #Set a variable for the output name
