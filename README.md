@@ -1,5 +1,5 @@
 # HandBrake-Auto-Encoder
-This project allows you to run handbreak on a given directory. The idea was to have a tool that can encode video files that are unecessarly large. By default the scirpt uses HandBreak's 1080p30FPS preset.
+This project allows you to run HandBrake on a given directory on a set basis. The idea was to have a tool that can encode video files that are unecessarly large. By default the scirpt uses HandBreak's 1080p30FPS preset.
 
 # What can you do with this?
 AutoEncoder_V is a powershell script that takes in an array of directories and will use Handbreak to encode all MKV fiiles larger than 1GB. It is designed to be ran in something like task scheduler where you can have it run automatically.
