@@ -6,15 +6,16 @@
 #Version 1.2: Added an exceptions CSV to avoid processing files that will not be able to be compressed
 #Version 1.3: Hardcoded the input directory so that it can be run as a scheduled task. Added the ability to add unprocessable files to the exceptions list automatically. Added a variable for the script directory to make it more portable.
 #######################################################################################
-#Get the working directory. This allows the script to run from any location
+#Get the working directory. This allows the script to run from any location. Then get the path to the handbrake install
 $ScriptDirectory = Split-Path -Path $MyInvocation.MyCommand.Definition -Parent
+$HandbreakDirectory = "C:\Users\ADMIN\Desktop\Important Stuff\Tools\Handbreak Encoder"
 
 #Start a transcript to track any logs
 $TranscriptName = get-date -Format mm-dd-yyyy
 Start-Transcript -Path "$ScriptDirectory\Logs\Log_$TranscriptName.txt"
 
 #Change directories to where handbreak is installed
-Set-Location "C:\Users\ADMIN\Desktop\Important Stuff\Tools\Handbreak Encoder"
+Set-Location $HandbreakDirectory
 
 #######################################################################################
 #Get either the single folder location of a list of dirctories to encode.
