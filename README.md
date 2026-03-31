@@ -6,7 +6,7 @@ AutoEncoder_V is a powershell script that takes in an array of directories and w
 
 AutoEncoder_OnDemand_V is a powershell script that does the same thing however is designed to be ran on demand. It will prompt you for either a single directory or a text file that contains multiple directories .
 
-# How do you get started?
+# How to get started
 1. Download and install handbrake CLI. https://handbrake.fr/downloads2.php
 
    <img width="1211" height="582" alt="image" src="https://github.com/user-attachments/assets/0c9a0519-579b-44e2-9daa-0bbc0f8e0cdc" />
@@ -28,7 +28,11 @@ AutoEncoder_OnDemand_V is a powershell script that does the same thing however i
    <img width="286" height="61" alt="image" src="https://github.com/user-attachments/assets/973c4fd7-5f04-4ad2-9e9e-4044fedffd0a" />
 
 # Frequently Asked Questions
-1. How can I monitor this?
+1. Was this written with AI?
+   
+   Nope! If it was, it'd be a lot better lol.
+   
+2. How can I monitor this?
    
    A transcript is created and stored in the logs folder. You can consult this after the script is running.
    You can also run it in VScode to watch it run in realtime.
