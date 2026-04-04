@@ -70,25 +70,27 @@ foreach ($Directory in $DirectoriesToEncode)
             try {./HandBrakeCLI.exe --input $file.FullName --output $FDQNOutName --preset="Fast 1080p30" --subtitle 1,2,3 --keep-subname --all-audio }
             catch {Write-Host "Error Encoding $($file.Fullname)" -ForegroundColor Red}
 
-            #Try and delete the orginal file
+            #Create a new object and add it to the exception list
+            $Outobject = [pscustomobject]@{
+                "File Name" = $file.FullName
+                "Root Directory" = $file.DirectoryName
+                "File Size (MB)" = [Math]::Round( ((get-childitem -path $file.FullName).length / 1024 /1024), 2)
+                "File Size (GB)" = [Math]::Round( ((get-childitem -path $file.FullName).length / 1024 /1024 /1024), 2)
+            }
+
+            #Try and delete the orginal file if it is larger than the new file, if not delete the new file and add the file info to the exceptions list CSV
             try { 
                 if( $file.length -gt (get-childitem -path $FDQNOutName).length)
                 {
                     write-host "Deleting the source file $($file.FullName)" -ForegroundColor Green
                     Remove-item -Path $file.FullName
                 }
-                else {
+                else 
+                {
+                    #Since the new file is larger than the orginal delete the new file
                     write-host "New file is larger than the orginal, deleting the new file $($FDQNOutName)" -ForegroundColor Yellow
                     Remove-item -Path $FDQNOutName
 
-                    #Create a new object and add it to the exception list
-                    $Outobject = [pscustomobject]@{
-                        "File Name" = $file.FullName
-                        "Root Directory" = $file.DirectoryName
-                        "File Size (MB)" = [Math]::Round( ((get-childitem -path $file.FullName).length / 1024 /1024), 2)
-                        "File Size (GB)" = [Math]::Round( ((get-childitem -path $file.FullName).length / 1024 /1024 /1024), 2)
-                    }
-                    
                     #Add the file info to the exceptions list CSV
                     $Outobject | Export-Csv -Path $ExpectionsListCSV -Append -NoTypeInformation
                 }

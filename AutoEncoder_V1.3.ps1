@@ -26,55 +26,53 @@ $ExpectionsListCSV = "$ScriptDirectory\Exceptions List.csv"
 $ExpectionsList = Import-Csv -Path $ExpectionsListCSV
 
 #######################################################################################
-foreach ($Directory in $DirectoriesToEncode)
-{
+foreach ($Directory in $DirectoriesToEncode) {
     #Get all of the files that need to be compressed
     $FilesToCompress = Get-ChildItem -Path $Directory -Recurse -File -filter "*.mkv" | Where-Object { $_.Length -gt 1GB } 
 
     #Foreach file that needs to be encoded 
-    foreach ($file in $FilesToCompress)
-    {
+    foreach ($file in $FilesToCompress) {
         #Check to make sure the file is not on the exceptions list
-        if($file.fullname -notin $ExpectionsList."File Name") 
-        {
+        if ($file.fullname -notin $ExpectionsList."File Name") {
             #Set a variable for the output name
             Write-Host "Encoding" $file.Fullname
             $parts = $file.Name -split '\.'
-            $OutFileNameBase = if ($parts.Length -gt 1) { $parts[0..($parts.Length-2)] -join '.' } else { $file.Name }
+            $OutFileNameBase = if ($parts.Length -gt 1) { $parts[0..($parts.Length - 2)] -join '.' } else { $file.Name }
 
             #Set the output FDQN with the new file name
-            $FDQNOutName = $file.DirectoryName  + "\" + $OutFileNameBase + ".mp4"
+            $FDQNOutName = $file.DirectoryName + "\" + $OutFileNameBase + ".mp4"
             
             #Try to encode the file.
-            try {./HandBrakeCLI.exe --input $file.FullName --output $FDQNOutName --preset="Fast 1080p30" --subtitle 1,2,3 --keep-subname --all-audio }
-            catch {Write-Host "Error Encoding $($file.Fullname)" -ForegroundColor Red}
+            try { ./HandBrakeCLI.exe --input $file.FullName --output $FDQNOutName --preset="Fast 1080p30" --subtitle 1, 2, 3 --keep-subname --all-audio }
+            catch { Write-Host "Error Encoding $($file.Fullname)" -ForegroundColor Red }
 
-            #Try and delete the orginal file
+            #Create a new object and add it to the exception list
+            $Outobject = [pscustomobject]@{
+                "File Name"      = $file.FullName
+                "Root Directory" = $file.DirectoryName
+                "File Size (MB)" = [Math]::Round( ((get-childitem -path $file.FullName).length / 1024 / 1024), 2)
+                "File Size (GB)" = [Math]::Round( ((get-childitem -path $file.FullName).length / 1024 / 1024 / 1024), 2)
+            }
+
+            #Try and delete the orginal file if it is larger than the new file, if not delete the new file and add the file info to the exceptions list CSV
             try { 
-                if( $file.length -gt (get-childitem -path $FDQNOutName).length)
-                {
+                if ( $file.length -gt (get-childitem -path $FDQNOutName).length) {
                     write-host "Deleting the source file $($file.FullName)" -ForegroundColor Green
                     Remove-item -Path $file.FullName
                 }
-                else {
+                else 
+                {
+                    #Since the new file is larger than the orginal delete the new file
                     write-host "New file is larger than the orginal, deleting the new file $($FDQNOutName)" -ForegroundColor Yellow
                     Remove-item -Path $FDQNOutName
 
-                    #Create a new object and add it to the exception list
-                    $Outobject = [pscustomobject]@{
-                        "File Name" = $file.FullName
-                        "Root Directory" = $file.DirectoryName
-                        "File Size (MB)" = [Math]::Round( ((get-childitem -path $file.FullName).length / 1024 /1024), 2)
-                        "File Size (GB)" = [Math]::Round( ((get-childitem -path $file.FullName).length / 1024 /1024 /1024), 2)
-                    }
-                    
                     #Add the file info to the exceptions list CSV
                     $Outobject | Export-Csv -Path $ExpectionsListCSV -Append -NoTypeInformation
                 }
             }
             catch { Write-Host "Error deleteing the source or new file $($file.FullName)" -ForegroundColor Red }
         }
-        else {Write-Host "$($File.name) is on the exceptions list and will not be processed."}
+        else { Write-Host "$($File.name) is on the exceptions list and will not be processed." }
     }
 }
 
