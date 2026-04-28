@@ -28,7 +28,7 @@ $ExpectionsList = Import-Csv -Path $ExpectionsListCSV
 #######################################################################################
 foreach ($Directory in $DirectoriesToEncode) {
     #Get all of the files that need to be compressed
-    $FilesToCompress = Get-ChildItem -Path $Directory -Recurse -File -filter "*.mkv" | Where-Object { $_.Length -gt 1GB } 
+    $FilesToCompress = Get-ChildItem -Path $Directory -Recurse -File -filter "*.mkv" | Where-Object { $_.Length -gt 1.2GB } 
 
     #Foreach file that needs to be encoded 
     foreach ($file in $FilesToCompress) {
